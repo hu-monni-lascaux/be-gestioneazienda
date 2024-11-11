@@ -1,25 +1,29 @@
 package com.example.gestioneazienda.controller;
 
-import com.example.gestioneazienda.dto.LoginRequest;
-import com.example.gestioneazienda.dto.LoginResponse;
+import com.example.gestioneazienda.dto.AuthenticationRequest;
+import com.example.gestioneazienda.dto.AuthenticationResponse;
+import com.example.gestioneazienda.dto.RegisterRequest;
 import com.example.gestioneazienda.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
     private AuthService authService;
 
-    // TODO da testare
-    @GetMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
-        return new ResponseEntity<>(authService.login(loginRequest), HttpStatus.OK);
+    @PostMapping("/register")
+    public ResponseEntity<AuthenticationResponse> register(
+            @RequestBody RegisterRequest request
+    ) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+
+    @GetMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
+        return new ResponseEntity<>(authService.authenticate(authenticationRequest), HttpStatus.OK);
     }
 }
