@@ -48,4 +48,10 @@ public class UserService implements UserDetailsService {
                 .map(this::mapUserToUserDto)
                 .collect(Collectors.toList());
     }
+
+    public UserDto getById(long id) {
+        return this.userRepository.findById(id)
+                .map(this::mapUserToUserDto)
+                .orElseThrow(() -> new UsernameNotFoundException("Utente con id " + id + " non trovato"));
+    }
 }

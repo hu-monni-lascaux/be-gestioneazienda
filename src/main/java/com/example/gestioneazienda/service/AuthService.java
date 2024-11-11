@@ -5,6 +5,7 @@ import com.example.gestioneazienda.dto.AuthenticationRequest;
 import com.example.gestioneazienda.dto.AuthenticationResponse;
 import com.example.gestioneazienda.dto.RegisterRequest;
 import com.example.gestioneazienda.dto.UserDto;
+import com.example.gestioneazienda.entity.Role;
 import com.example.gestioneazienda.entity.Token;
 import com.example.gestioneazienda.entity.TokenType;
 import com.example.gestioneazienda.entity.User;
@@ -106,7 +107,7 @@ public class AuthService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
+                .role(Role.BASE)
                 .build();
         var savedUser = userRepository.save(user);
         var userDto = userService.mapUserToUserDto(user);

@@ -5,16 +5,18 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AgendaDto {
-    private String name;
+public class AppointmentDto {
+    private String title;
+    private String text;
+    private LocalDateTime start;
+    private LocalDateTime end;
     private String username;
-    private Duration maxAppointmentTime;
-    private List<ServiceHourDto> serviceHoursDto;
+    private List<AgendaDto> agendas;
 }

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.List;
 
 @Data
@@ -20,7 +20,7 @@ public class Agenda {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private LocalDateTime maxAppointmentTime;
+    private Duration maxAppointmentTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

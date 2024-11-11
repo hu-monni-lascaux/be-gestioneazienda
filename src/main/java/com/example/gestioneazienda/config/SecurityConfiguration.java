@@ -29,16 +29,17 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/*").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/auth/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/user/*").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/agenda/*").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/agenda/*").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();
     }
-
 
     @Bean
     public UserDetailsService userDetailsService() {
