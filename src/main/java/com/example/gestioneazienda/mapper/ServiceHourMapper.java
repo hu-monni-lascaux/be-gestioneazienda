@@ -9,11 +9,11 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ServiceHourMapper {
 
-    ServiceHourDTO serviceHourToServiceHourDTO(ServiceHour serviceHour);
+    ServiceHourDTO toServiceHourDTO(ServiceHour serviceHour);
 
-    ServiceHour serviceHourDTOToServiceHour(ServiceHourDTO serviceHourDTO);
+    ServiceHour toServiceHour(ServiceHourDTO serviceHourDTO);
 
-    List<ServiceHourDTO> serviceHoursToServiceHourDTOs(List<ServiceHour> serviceHours);
+    List<ServiceHourDTO> toServiceHourDTOList(List<ServiceHour> serviceHours);
 
-    List<ServiceHour> serviceHourDTOsToServiceHours(List<ServiceHourDTO> serviceHourDTOs);
+    List<ServiceHour> toServiceHourList(List<ServiceHourDTO> serviceHourDTOs);
 }

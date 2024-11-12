@@ -11,8 +11,8 @@ import org.mapstruct.Mapping;
 public interface AppointmentMapper {
 
     @Mapping(target = "username", source = "appointment.user.username")
-    AppointmentDTO appointmentToAppointmentDTO(Appointment appointment);
+    AppointmentDTO toAppointmentDTO(Appointment appointment);
 
     @Mapping(target = "user", source = "username", qualifiedByName = "usernameToUser")
-    Appointment appointmentDTOtoAppointment(AppointmentDTO appointmentDTO);
+    Appointment toAppointment(AppointmentDTO appointmentDTO);
 }

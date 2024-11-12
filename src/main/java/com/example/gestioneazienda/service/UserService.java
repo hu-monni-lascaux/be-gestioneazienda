@@ -23,19 +23,19 @@ public class UserService implements UserDetailsService {
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username)
-                .map(userMapper::userToUserDTO)
+                .map(userMapper::toUserDTO)
                 .orElseThrow(() -> new UsernameNotFoundException("Utente non trovato: " + username));
     }
 
     public List<UserDTO> getAll() {
         return this.userRepository.findAll().stream()
-                .map(userMapper::userToUserDTO)
+                .map(userMapper::toUserDTO)
                 .collect(Collectors.toList());
     }
 
     public UserDTO getById(long id) {
         return this.userRepository.findById(id)
-                .map(userMapper::userToUserDTO)
+                .map(userMapper::toUserDTO)
                 .orElseThrow(() -> new UsernameNotFoundException("Utente con id " + id + " non trovato"));
     }
 }

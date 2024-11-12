@@ -17,7 +17,7 @@ public class AppointmentService {
 
     public List<AppointmentDTO> getAll() {
         return appointmentRepository.findAll().stream()
-                .map(appointmentMapper::appointmentToAppointmentDTO)
+                .map(appointmentMapper::toAppointmentDTO)
                 .collect(Collectors.toList());
     }
 

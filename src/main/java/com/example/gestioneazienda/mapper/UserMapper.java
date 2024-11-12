@@ -14,7 +14,7 @@ import java.util.List;
 public interface UserMapper {
 
     @Mapping(source = "role", target = "authorities")
-    UserDTO userToUserDTO(User user);
+    UserDTO toUserDTO(User user);
 
     default List<GrantedAuthority> mapRoleToAuthorities(Role role) {
         return role != null ? List.of(new SimpleGrantedAuthority(role.name())) : List.of();

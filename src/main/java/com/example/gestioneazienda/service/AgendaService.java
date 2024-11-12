@@ -23,19 +23,19 @@ public class AgendaService {
     public void create(AgendaDTO agendaDto) {
         User user = userRepository.findByUsername(agendaDto.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found for username: " + agendaDto.getUsername()));
-        Agenda agenda = agendaRepository.save(agendaMapper.agendaDTOtoAgenda(agendaDto));
+        Agenda agenda = agendaRepository.save(agendaMapper.toAgenda(agendaDto));
         user.getAgendas().add(agenda);
     }
 
     public List<AgendaDTO> getAll() {
         return agendaRepository.findAll().stream()
-                .map(agendaMapper::agendaToAgendaDTO)
+                .map(agendaMapper::toAgendaDTO)
                 .collect(Collectors.toList());
     }
 
     public List<AgendaDTO> getAllByUsername(String username) {
         return agendaRepository.findByUserUsername(username).stream()
-                .map(agendaMapper::agendaToAgendaDTO)
+                .map(agendaMapper::toAgendaDTO)
                 .collect(Collectors.toList());
     }
 }

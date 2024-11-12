@@ -44,7 +44,7 @@ public class AuthService {
         );
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
-        var userDto = userMapper.userToUserDTO(user);
+        var userDto = userMapper.toUserDTO(user);
         var jwtToken = jwtService.generateToken(userDto);
         //var refreshToken = jwtService.generateRefreshToken(userDto);
         revokeAllUserTokens(user);
@@ -91,7 +91,7 @@ public class AuthService {
         if (userEmail != null) {
             var user = this.userRepository.findByEmail(userEmail)
                     .orElseThrow();
-            UserDTO userDto = userMapper.userToUserDTO(user);
+            UserDTO userDto = userMapper.toUserDTO(user);
             if (jwtService.isTokenValid(refreshToken, userDto)) {
                 var jwtToken = jwtService.generateToken(userDto);
                 revokeAllUserTokens(user);
@@ -112,7 +112,7 @@ public class AuthService {
                 .role(Role.BASE)
                 .build();
         var savedUser = userRepository.save(user);
-        var userDto = userMapper.userToUserDTO(user);
+        var userDto = userMapper.toUserDTO(user);
         var jwtToken = jwtService.generateToken(userDto);
         //var refreshToken = jwtService.generateRefreshToken(userDto);
         saveUserToken(savedUser, jwtToken);

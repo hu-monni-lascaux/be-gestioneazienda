@@ -44,7 +44,7 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByUsername(username)
-                .map(userMapper::userToUserDTO)
+                .map(userMapper::toUserDTO)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
