@@ -25,4 +25,9 @@ public class CustomExceptionHandler {
     public ResponseEntity<?> generic(Exception exception, WebRequest request) {
         return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(RecordNotFoundException.class)
+    public ResponseEntity<?> recordNotFound(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.NOT_FOUND);
+    }
 }

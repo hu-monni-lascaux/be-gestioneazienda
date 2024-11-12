@@ -5,9 +5,7 @@ import com.example.gestioneazienda.service.AppointmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +18,28 @@ public class AppointmentController {
     @GetMapping("/")
     public ResponseEntity<List<AppointmentDTO>> getAll() {
         return new ResponseEntity<>(appointmentService.getAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AppointmentDTO> get(@PathVariable long id) {
+        return new ResponseEntity<>(appointmentService.getById(id), HttpStatus.OK);
+    }
+
+    @PostMapping("/")
+    public ResponseEntity<?> create(@RequestBody AppointmentDTO appointmentDTO) {
+        appointmentService.create(appointmentDTO);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<?> update(@RequestBody AppointmentDTO appointmentDTO) {
+        appointmentService.update(appointmentDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable long id) {
+        appointmentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
