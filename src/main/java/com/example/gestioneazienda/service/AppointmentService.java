@@ -1,7 +1,7 @@
 package com.example.gestioneazienda.service;
 
-import com.example.gestioneazienda.dto.AppointmentDto;
-import com.example.gestioneazienda.entity.Appointment;
+import com.example.gestioneazienda.dto.AppointmentDTO;
+import com.example.gestioneazienda.mapper.AppointmentMapper;
 import com.example.gestioneazienda.repository.AppointmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,14 +13,12 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AppointmentService {
     private AppointmentRepository appointmentRepository;
+    private AppointmentMapper appointmentMapper;
 
-    public List<AppointmentDto> getAll() {
+    public List<AppointmentDTO> getAll() {
         return appointmentRepository.findAll().stream()
-                .map(this::mapAppointmentToDto)
+                .map(appointmentMapper::appointmentToAppointmentDTO)
                 .collect(Collectors.toList());
     }
 
-    public AppointmentDto mapAppointmentToDto(Appointment appointment) {
-        return null; // todo da completare
-    }
 }

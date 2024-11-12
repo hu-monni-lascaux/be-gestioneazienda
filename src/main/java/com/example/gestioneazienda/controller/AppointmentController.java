@@ -1,6 +1,6 @@
 package com.example.gestioneazienda.controller;
 
-import com.example.gestioneazienda.dto.AppointmentDto;
+import com.example.gestioneazienda.dto.AppointmentDTO;
 import com.example.gestioneazienda.service.AppointmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class AppointmentController {
     private AppointmentService appointmentService;
 
     @GetMapping("/")
-    public ResponseEntity<List<AppointmentDto>> getAll() {
+    public ResponseEntity<List<AppointmentDTO>> getAll() {
         return new ResponseEntity<>(appointmentService.getAll(), HttpStatus.OK);
     }
 }

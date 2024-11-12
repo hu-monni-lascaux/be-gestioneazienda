@@ -12,9 +12,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AgendaDto {
+public class AgendaDTO {
     private String name;
     private String username;
     private Duration maxAppointmentTime;
-    private List<ServiceHourDto> serviceHoursDto;
+    private List<ServiceHourDTO> serviceHoursDTO;
 }

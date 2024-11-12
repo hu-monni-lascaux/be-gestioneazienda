@@ -4,11 +4,12 @@ import com.example.gestioneazienda.config.JwtService;
 import com.example.gestioneazienda.dto.AuthenticationRequest;
 import com.example.gestioneazienda.dto.AuthenticationResponse;
 import com.example.gestioneazienda.dto.RegisterRequest;
-import com.example.gestioneazienda.dto.UserDto;
+import com.example.gestioneazienda.dto.UserDTO;
 import com.example.gestioneazienda.entity.Role;
 import com.example.gestioneazienda.entity.Token;
 import com.example.gestioneazienda.entity.TokenType;
 import com.example.gestioneazienda.entity.User;
+import com.example.gestioneazienda.mapper.UserMapper;
 import com.example.gestioneazienda.repository.TokenRepository;
 import com.example.gestioneazienda.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +33,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(
@@ -42,7 +44,7 @@ public class AuthService {
         );
         var user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow();
-        var userDto = userService.mapUserToUserDto(user);
+        var userDto = userMapper.userToUserDTO(user);
         var jwtToken = jwtService.generateToken(userDto);
         //var refreshToken = jwtService.generateRefreshToken(userDto);
         revokeAllUserTokens(user);
@@ -89,7 +91,7 @@ public class AuthService {
         if (userEmail != null) {
             var user = this.userRepository.findByEmail(userEmail)
                     .orElseThrow();
-            UserDto userDto = userService.mapUserToUserDto(user);
+            UserDTO userDto = userMapper.userToUserDTO(user);
             if (jwtService.isTokenValid(refreshToken, userDto)) {
                 var jwtToken = jwtService.generateToken(userDto);
                 revokeAllUserTokens(user);
@@ -110,7 +112,7 @@ public class AuthService {
                 .role(Role.BASE)
                 .build();
         var savedUser = userRepository.save(user);
-        var userDto = userService.mapUserToUserDto(user);
+        var userDto = userMapper.userToUserDTO(user);
         var jwtToken = jwtService.generateToken(userDto);
         //var refreshToken = jwtService.generateRefreshToken(userDto);
         saveUserToken(savedUser, jwtToken);

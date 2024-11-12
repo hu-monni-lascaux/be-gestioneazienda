@@ -1,16 +1,15 @@
 package com.example.gestioneazienda.service;
 
-import com.example.gestioneazienda.dto.AgendaDto;
-import com.example.gestioneazienda.dto.ServiceHourDto;
+import com.example.gestioneazienda.dto.AgendaDTO;
 import com.example.gestioneazienda.entity.Agenda;
-import com.example.gestioneazienda.entity.ServiceHour;
 import com.example.gestioneazienda.entity.User;
+import com.example.gestioneazienda.mapper.AgendaMapper;
 import com.example.gestioneazienda.repository.AgendaRepository;
 import com.example.gestioneazienda.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,66 +18,24 @@ import java.util.stream.Collectors;
 public class AgendaService {
     private AgendaRepository agendaRepository;
     private UserRepository userRepository;
+    private AgendaMapper agendaMapper;
 
-    public void create(AgendaDto agendaDto) {
+    public void create(AgendaDTO agendaDto) {
         User user = userRepository.findByUsername(agendaDto.getUsername())
-                .orElseThrow();
-        Agenda agenda = agendaRepository.save(mapDtoToAgenda(agendaDto, user));
+                .orElseThrow(() -> new UsernameNotFoundException("User not found for username: " + agendaDto.getUsername()));
+        Agenda agenda = agendaRepository.save(agendaMapper.agendaDTOtoAgenda(agendaDto));
         user.getAgendas().add(agenda);
-        userRepository.save(user);
     }
 
-    public Agenda mapDtoToAgenda(AgendaDto agendaDto, User user) {
-        Agenda agenda = new Agenda();
-        agenda.setAppointments(List.of());
-        agenda.setName(agendaDto.getName());
-        agenda.setUser(user);
-        agenda.setMaxAppointmentTime(agendaDto.getMaxAppointmentTime());
-
-        List<ServiceHour> serviceHours = new ArrayList<>();
-        for(ServiceHourDto serviceHourDto : agendaDto.getServiceHoursDto()) {
-            ServiceHour serviceHour = new ServiceHour();
-            serviceHour.setAgenda(agenda);
-            serviceHour.setDay(serviceHourDto.getDay());
-            serviceHour.setStart(serviceHourDto.getStart());
-            serviceHour.setEnd(serviceHourDto.getEnd());
-
-            serviceHours.add(serviceHour);
-        }
-        agenda.setServiceHours(serviceHours);
-
-        return agenda;
-    }
-
-    public AgendaDto mapAgendaToDto(Agenda agenda) {
-        AgendaDto agendaDto = new AgendaDto();
-
-        List<ServiceHourDto> serviceHoursDto = new ArrayList<>();
-        for(ServiceHour serviceHour : agenda.getServiceHours()) {
-            ServiceHourDto serviceHourDto = new ServiceHourDto();
-            serviceHourDto.setDay(serviceHour.getDay());
-            serviceHourDto.setStart(serviceHour.getStart());
-            serviceHourDto.setEnd(serviceHour.getEnd());
-
-            serviceHoursDto.add(serviceHourDto);
-        }
-        agendaDto.setServiceHoursDto(serviceHoursDto);
-
-        agendaDto.setUsername(agenda.getUser().getUsername());
-        agendaDto.setName(agenda.getName());
-        agendaDto.setMaxAppointmentTime(agenda.getMaxAppointmentTime());
-        return agendaDto;
-    }
-
-    public List<AgendaDto> getAll() {
+    public List<AgendaDTO> getAll() {
         return agendaRepository.findAll().stream()
-                .map(this::mapAgendaToDto)
+                .map(agendaMapper::agendaToAgendaDTO)
                 .collect(Collectors.toList());
     }
 
-    public List<AgendaDto> getAllByUsername(String username) {
+    public List<AgendaDTO> getAllByUsername(String username) {
         return agendaRepository.findByUserUsername(username).stream()
-                .map(this::mapAgendaToDto)
+                .map(agendaMapper::agendaToAgendaDTO)
                 .collect(Collectors.toList());
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserDto implements UserDetails {
+public class UserDTO implements UserDetails {
     private Long id;
     private String username;
     private String email;

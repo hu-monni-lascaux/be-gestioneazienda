@@ -1,6 +1,6 @@
 package com.example.gestioneazienda.controller;
 
-import com.example.gestioneazienda.dto.AgendaDto;
+import com.example.gestioneazienda.dto.AgendaDTO;
 import com.example.gestioneazienda.service.AgendaService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,17 +16,17 @@ public class AgendaController {
     private final AgendaService agendaService;
 
     @GetMapping("/")
-    public ResponseEntity<List<AgendaDto>> getAll() {
+    public ResponseEntity<List<AgendaDTO>> getAll() {
         return new ResponseEntity<>(agendaService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{username}")
-    public ResponseEntity<List<AgendaDto>> getAllByUsername(@PathVariable String username) {
+    public ResponseEntity<List<AgendaDTO>> getAllByUsername(@PathVariable String username) {
         return new ResponseEntity<>(agendaService.getAllByUsername(username), HttpStatus.OK);
     }
 
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody AgendaDto agendaDto) {
+    public ResponseEntity<?> create(@RequestBody AgendaDTO agendaDto) {
         agendaService.create(agendaDto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
