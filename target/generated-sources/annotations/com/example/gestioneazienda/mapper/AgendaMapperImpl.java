@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-12T14:53:15+0100",
+    date = "2024-11-12T17:12:17+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)"
 )
 @Component
@@ -21,6 +21,8 @@ public class AgendaMapperImpl extends AgendaMapper {
 
     @Autowired
     private ServiceHourMapper serviceHourMapper;
+    @Autowired
+    private AppointmentMapper appointmentMapper;
 
     @Override
     public Agenda toAgenda(AgendaDTO agendaDTO) {
@@ -56,21 +58,6 @@ public class AgendaMapperImpl extends AgendaMapper {
         return agendaDTO.build();
     }
 
-    protected Appointment appointmentDTOToAppointment(AppointmentDTO appointmentDTO) {
-        if ( appointmentDTO == null ) {
-            return null;
-        }
-
-        Appointment.AppointmentBuilder appointment = Appointment.builder();
-
-        appointment.title( appointmentDTO.getTitle() );
-        appointment.text( appointmentDTO.getText() );
-        appointment.start( appointmentDTO.getStart() );
-        appointment.end( appointmentDTO.getEnd() );
-
-        return appointment.build();
-    }
-
     protected List<Appointment> appointmentDTOListToAppointmentList(List<AppointmentDTO> list) {
         if ( list == null ) {
             return null;
@@ -78,7 +65,7 @@ public class AgendaMapperImpl extends AgendaMapper {
 
         List<Appointment> list1 = new ArrayList<Appointment>( list.size() );
         for ( AppointmentDTO appointmentDTO : list ) {
-            list1.add( appointmentDTOToAppointment( appointmentDTO ) );
+            list1.add( appointmentMapper.toAppointment( appointmentDTO ) );
         }
 
         return list1;
@@ -92,21 +79,6 @@ public class AgendaMapperImpl extends AgendaMapper {
         return user.getUsername();
     }
 
-    protected AppointmentDTO appointmentToAppointmentDTO(Appointment appointment) {
-        if ( appointment == null ) {
-            return null;
-        }
-
-        AppointmentDTO.AppointmentDTOBuilder appointmentDTO = AppointmentDTO.builder();
-
-        appointmentDTO.title( appointment.getTitle() );
-        appointmentDTO.text( appointment.getText() );
-        appointmentDTO.start( appointment.getStart() );
-        appointmentDTO.end( appointment.getEnd() );
-
-        return appointmentDTO.build();
-    }
-
     protected List<AppointmentDTO> appointmentListToAppointmentDTOList(List<Appointment> list) {
         if ( list == null ) {
             return null;
@@ -114,7 +86,7 @@ public class AgendaMapperImpl extends AgendaMapper {
 
         List<AppointmentDTO> list1 = new ArrayList<AppointmentDTO>( list.size() );
         for ( Appointment appointment : list ) {
-            list1.add( appointmentToAppointmentDTO( appointment ) );
+            list1.add( appointmentMapper.toAppointmentDTO( appointment ) );
         }
 
         return list1;

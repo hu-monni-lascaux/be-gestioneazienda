@@ -28,6 +28,18 @@ public class AgendaController {
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody AgendaDTO agendaDto) {
         agendaService.create(agendaDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/")
+    public ResponseEntity<?> update(@RequestBody AgendaDTO agendaDTO) {
+        agendaService.update(agendaDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable long id) {
+        agendaService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

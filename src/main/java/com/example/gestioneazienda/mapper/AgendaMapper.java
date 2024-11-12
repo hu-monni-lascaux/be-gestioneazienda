@@ -3,21 +3,23 @@ package com.example.gestioneazienda.mapper;
 import com.example.gestioneazienda.dto.AgendaDTO;
 import com.example.gestioneazienda.entity.Agenda;
 import com.example.gestioneazienda.entity.User;
-import com.example.gestioneazienda.service.UserService;
+import com.example.gestioneazienda.repository.UserRepository;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 @Mapper(
         componentModel = "spring",
         uses = {
-                ServiceHourMapper.class
+                ServiceHourMapper.class,
+                AppointmentMapper.class
         }
 )
 public abstract class AgendaMapper {
     @Autowired
-    private UserService userService;
+    private UserRepository userRepository;
 
     @Mapping(target = "user", source = "username", qualifiedByName = "usernameToUser")
     @Mapping(target = "serviceHours", source = "serviceHoursDTO")
@@ -31,7 +33,8 @@ public abstract class AgendaMapper {
 
     @Named("usernameToUser")
     protected User mapUsernameToUser(String username) {
-        return (User) userService.loadUserByUsername(username);
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username + " username non trovato"));
     }
 
 }

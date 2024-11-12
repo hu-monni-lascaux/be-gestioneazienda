@@ -17,5 +17,5 @@ public class AppointmentDTO {
     private LocalDateTime start;
     private LocalDateTime end;
     private String username;
-    private AgendaDTO agendas;
+    private Long agendaID;
 }
