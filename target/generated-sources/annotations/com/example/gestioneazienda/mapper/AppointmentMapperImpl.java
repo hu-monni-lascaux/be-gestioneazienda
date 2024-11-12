@@ -1,19 +1,15 @@
 package com.example.gestioneazienda.mapper;
 
-import com.example.gestioneazienda.dto.AgendaDTO;
 import com.example.gestioneazienda.dto.AppointmentDTO;
-import com.example.gestioneazienda.entity.Agenda;
 import com.example.gestioneazienda.entity.Appointment;
 import com.example.gestioneazienda.entity.User;
-import java.util.ArrayList;
-import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-12T10:05:43+0100",
+    date = "2024-11-12T14:30:03+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)"
 )
 @Component
@@ -23,7 +19,7 @@ public class AppointmentMapperImpl implements AppointmentMapper {
     private AgendaMapper agendaMapper;
 
     @Override
-    public AppointmentDTO appointmentToAppointmentDTO(Appointment appointment) {
+    public AppointmentDTO toAppointmentDTO(Appointment appointment) {
         if ( appointment == null ) {
             return null;
         }
@@ -35,13 +31,12 @@ public class AppointmentMapperImpl implements AppointmentMapper {
         appointmentDTO.text( appointment.getText() );
         appointmentDTO.start( appointment.getStart() );
         appointmentDTO.end( appointment.getEnd() );
-        appointmentDTO.agendas( agendaListToAgendaDTOList( appointment.getAgendas() ) );
 
         return appointmentDTO.build();
     }
 
     @Override
-    public Appointment appointmentDTOtoAppointment(AppointmentDTO appointmentDTO) {
+    public Appointment toAppointment(AppointmentDTO appointmentDTO) {
         if ( appointmentDTO == null ) {
             return null;
         }
@@ -53,7 +48,6 @@ public class AppointmentMapperImpl implements AppointmentMapper {
         appointment.text( appointmentDTO.getText() );
         appointment.start( appointmentDTO.getStart() );
         appointment.end( appointmentDTO.getEnd() );
-        appointment.agendas( agendaDTOListToAgendaList( appointmentDTO.getAgendas() ) );
 
         return appointment.build();
     }
@@ -64,31 +58,5 @@ public class AppointmentMapperImpl implements AppointmentMapper {
             return null;
         }
         return user.getUsername();
-    }
-
-    protected List<AgendaDTO> agendaListToAgendaDTOList(List<Agenda> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<AgendaDTO> list1 = new ArrayList<AgendaDTO>( list.size() );
-        for ( Agenda agenda : list ) {
-            list1.add( agendaMapper.agendaToAgendaDTO( agenda ) );
-        }
-
-        return list1;
-    }
-
-    protected List<Agenda> agendaDTOListToAgendaList(List<AgendaDTO> list) {
-        if ( list == null ) {
-            return null;
-        }
-
-        List<Agenda> list1 = new ArrayList<Agenda>( list.size() );
-        for ( AgendaDTO agendaDTO : list ) {
-            list1.add( agendaMapper.agendaDTOtoAgenda( agendaDTO ) );
-        }
-
-        return list1;
     }
 }

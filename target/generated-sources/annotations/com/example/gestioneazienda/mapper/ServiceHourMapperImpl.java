@@ -9,14 +9,14 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-12T09:47:40+0100",
+    date = "2024-11-12T11:21:17+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)"
 )
 @Component
 public class ServiceHourMapperImpl implements ServiceHourMapper {
 
     @Override
-    public ServiceHourDTO serviceHourToServiceHourDTO(ServiceHour serviceHour) {
+    public ServiceHourDTO toServiceHourDTO(ServiceHour serviceHour) {
         if ( serviceHour == null ) {
             return null;
         }
@@ -31,7 +31,7 @@ public class ServiceHourMapperImpl implements ServiceHourMapper {
     }
 
     @Override
-    public ServiceHour serviceHourDTOToServiceHour(ServiceHourDTO serviceHourDTO) {
+    public ServiceHour toServiceHour(ServiceHourDTO serviceHourDTO) {
         if ( serviceHourDTO == null ) {
             return null;
         }
@@ -46,28 +46,28 @@ public class ServiceHourMapperImpl implements ServiceHourMapper {
     }
 
     @Override
-    public List<ServiceHourDTO> serviceHoursToServiceHourDTOs(List<ServiceHour> serviceHours) {
+    public List<ServiceHourDTO> toServiceHourDTOList(List<ServiceHour> serviceHours) {
         if ( serviceHours == null ) {
             return null;
         }
 
         List<ServiceHourDTO> list = new ArrayList<ServiceHourDTO>( serviceHours.size() );
         for ( ServiceHour serviceHour : serviceHours ) {
-            list.add( serviceHourToServiceHourDTO( serviceHour ) );
+            list.add( toServiceHourDTO( serviceHour ) );
         }
 
         return list;
     }
 
     @Override
-    public List<ServiceHour> serviceHourDTOsToServiceHours(List<ServiceHourDTO> serviceHourDTOs) {
+    public List<ServiceHour> toServiceHourList(List<ServiceHourDTO> serviceHourDTOs) {
         if ( serviceHourDTOs == null ) {
             return null;
         }
 
         List<ServiceHour> list = new ArrayList<ServiceHour>( serviceHourDTOs.size() );
         for ( ServiceHourDTO serviceHourDTO : serviceHourDTOs ) {
-            list.add( serviceHourDTOToServiceHour( serviceHourDTO ) );
+            list.add( toServiceHour( serviceHourDTO ) );
         }
 
         return list;

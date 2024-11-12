@@ -6,7 +6,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,5 +17,5 @@ public class AppointmentDTO {
     private LocalDateTime start;
     private LocalDateTime end;
     private String username;
-    private List<AgendaDTO> agendas;
+    private AgendaDTO agendas;
 }

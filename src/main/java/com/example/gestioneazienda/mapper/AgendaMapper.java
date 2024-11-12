@@ -21,10 +21,12 @@ public abstract class AgendaMapper {
 
     @Mapping(target = "user", source = "username", qualifiedByName = "usernameToUser")
     @Mapping(target = "serviceHours", source = "serviceHoursDTO")
+    @Mapping(target = "appointments", source = "appointmentsDTO")
     public abstract Agenda toAgenda(AgendaDTO agendaDTO);
 
     @Mapping(target = "username", source = "agenda.user.username")
     @Mapping(target = "serviceHoursDTO", source = "serviceHours")
+    @Mapping(target = "appointmentsDTO", source = "appointments")
     public abstract AgendaDTO toAgendaDTO(Agenda agenda);
 
     @Named("usernameToUser")

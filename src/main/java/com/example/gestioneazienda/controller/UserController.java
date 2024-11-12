@@ -1,10 +1,12 @@
 package com.example.gestioneazienda.controller;
 
 import com.example.gestioneazienda.dto.UserDTO;
+import com.example.gestioneazienda.service.AuthService;
 import com.example.gestioneazienda.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +16,11 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
     private UserService userService;
+    private AuthService authService;
 
     @GetMapping("/")
     public ResponseEntity<List<UserDTO>> getAll() {
+        System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
@@ -30,6 +34,11 @@ public class UserController {
         return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
-    //@PutMapping("/")
+    @PutMapping("/")
+    public ResponseEntity<UserDTO> update(@RequestHeader("Authorization") String jwtToken, @RequestBody UserDTO userDTO) {
+        authService.verifyToken(jwtToken);
+        userService.update(userDTO);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
 }

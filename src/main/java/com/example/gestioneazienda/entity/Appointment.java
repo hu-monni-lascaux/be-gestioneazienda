@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -30,10 +29,7 @@ public class Appointment {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @ManyToMany
-    @JoinTable(
-            name = "appointments_agendas",
-            joinColumns = @JoinColumn(name = "appointment_id"),
-            inverseJoinColumns = @JoinColumn(name = "agenda_id"))
-    private List<Agenda> agendas;
+    @ManyToOne
+    @JoinColumn(name = "agenda_id", nullable = false)
+    private Agenda agenda;
 }

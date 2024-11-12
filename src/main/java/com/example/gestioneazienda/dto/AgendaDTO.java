@@ -16,5 +16,6 @@ public class AgendaDTO {
     private String name;
     private String username;
     private Duration maxAppointmentTime;
+    private List<AppointmentDTO> appointmentsDTO;
     private List<ServiceHourDTO> serviceHoursDTO;
 }

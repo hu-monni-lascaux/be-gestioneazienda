@@ -19,15 +19,19 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Collection;
 
 @AllArgsConstructor
 @Service
 public class AuthService {
-    private final UserService userService;
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
@@ -83,7 +87,7 @@ public class AuthService {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;
         final String userEmail;
-        if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
         refreshToken = authHeader.substring(7);
@@ -119,5 +123,16 @@ public class AuthService {
         return AuthenticationResponse.builder()
                 .jwtToken(jwtToken)
                 .build();
+    }
+
+    public void verifyToken(String jwtToken) {
+        String username = jwtService.extractUsername(jwtToken.substring("Bearer ".length()));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username + " username not found"));
+        UserDTO userDTO = userMapper.toUserDTO(user);
+        Collection<? extends GrantedAuthority> authorities = userDTO.getAuthorities();
+
+        Authentication authToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }

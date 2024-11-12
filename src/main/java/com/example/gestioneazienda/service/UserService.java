@@ -1,12 +1,15 @@
 package com.example.gestioneazienda.service;
 
 import com.example.gestioneazienda.dto.UserDTO;
+import com.example.gestioneazienda.entity.User;
 import com.example.gestioneazienda.mapper.UserMapper;
 import com.example.gestioneazienda.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +21,7 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private UserMapper userMapper;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(readOnly = true)
@@ -37,5 +41,14 @@ public class UserService implements UserDetailsService {
         return this.userRepository.findById(id)
                 .map(userMapper::toUserDTO)
                 .orElseThrow(() -> new UsernameNotFoundException("Utente con id " + id + " non trovato"));
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void update(UserDTO userDTO) {
+        User userOLD = userRepository.findByUsername(userDTO.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException(userDTO.getUsername() + " username non trovato"));
+        User userNEW = userMapper.toUser(userDTO);
+        userNEW.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+        userRepository.update(userOLD.getId(), userNEW.getUsername(), userNEW.getEmail(), userNEW.getPassword(), userNEW.getRole());
     }
 }
