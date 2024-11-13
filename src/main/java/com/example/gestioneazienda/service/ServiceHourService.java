@@ -44,7 +44,7 @@ public class ServiceHourService {
         serviceHourRepository.deleteById(id);
     }
 
-    public void update(ServiceHourDTO serviceHourDTO) {
+    public ServiceHourDTO update(ServiceHourDTO serviceHourDTO) {
         ServiceHour serviceHour = serviceHourRepository.save(serviceHourMapper.toServiceHour(serviceHourDTO));
         return serviceHourMapper.toServiceHourDTO(serviceHour);
     }
