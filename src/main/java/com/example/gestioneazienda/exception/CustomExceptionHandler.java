@@ -18,12 +18,12 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<?> genericRuntime(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(true)), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> generic(Exception exception, WebRequest request) {
-        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(true)), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(InvalidAppointmentTimeException.class)

@@ -2,8 +2,6 @@ package com.example.gestioneazienda.service;
 
 import com.example.gestioneazienda.dto.AppointmentDTO;
 import com.example.gestioneazienda.entity.Agenda;
-import com.example.gestioneazienda.entity.Appointment;
-import com.example.gestioneazienda.entity.ServiceHour;
 import com.example.gestioneazienda.exception.AppointmentConflictException;
 import com.example.gestioneazienda.exception.InvalidAppointmentTimeException;
 import com.example.gestioneazienda.exception.RecordNotFoundException;
@@ -12,6 +10,7 @@ import com.example.gestioneazienda.repository.AgendaRepository;
 import com.example.gestioneazienda.repository.AppointmentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,25 +44,27 @@ public class AppointmentService {
         appointmentRepository.save(appointmentMapper.toAppointment(appointmentDTO));
     }
 
+    @Transactional(readOnly = true)
     private void validateAppointment(AppointmentDTO appointmentDTO) {
         Agenda agenda = agendaRepository.findById(appointmentDTO.getAgendaID())
                 .orElseThrow(() -> new RecordNotFoundException("Agenda not found. Id " + appointmentDTO.getAgendaID()));
 
-        boolean valid = false;
-        for (ServiceHour serviceHour : agenda.getServiceHours()) {
-            if ((appointmentDTO.getStart().isAfter(serviceHour.getStart()) || appointmentDTO.getStart().isEqual(serviceHour.getStart())) &&
-                    (appointmentDTO.getEnd().isBefore(serviceHour.getEnd()) || appointmentDTO.getEnd().isEqual(serviceHour.getEnd()))) {
-                valid = true;
-            }
-        }
-        if(!valid) {
+        boolean valid = agenda.getServiceHours().stream()
+                .anyMatch(serviceHour ->
+                        (appointmentDTO.getStart().isEqual(serviceHour.getStart()) || appointmentDTO.getStart().isAfter(serviceHour.getStart())) &&
+                                (appointmentDTO.getEnd().isEqual(serviceHour.getEnd()) || appointmentDTO.getEnd().isBefore(serviceHour.getEnd()))
+                );
+
+        if (!valid) {
             throw new InvalidAppointmentTimeException("Appointment time is outside of available service hours.");
         }
-        for (Appointment existingAppointment : agenda.getAppointments()) {
-            if ((appointmentDTO.getStart().isBefore(existingAppointment.getEnd()) && appointmentDTO.getEnd().isAfter(existingAppointment.getStart()))) {
-                throw new AppointmentConflictException("Appointment time conflicts with an existing appointment.");
-            }
-        }
+
+        agenda.getAppointments().stream()
+                .filter(existingAppointment ->
+                        (appointmentDTO.getStart().isBefore(existingAppointment.getEnd()) && appointmentDTO.getEnd().isAfter(existingAppointment.getStart()))
+                )
+                .findAny()
+                .orElseThrow(() -> new AppointmentConflictException("Appointment time conflicts with an existing appointment."));
     }
 
     public void delete(long id) {

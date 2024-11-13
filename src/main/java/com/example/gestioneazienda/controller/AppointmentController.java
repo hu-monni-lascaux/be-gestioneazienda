@@ -1,6 +1,8 @@
 package com.example.gestioneazienda.controller;
 
 import com.example.gestioneazienda.dto.AppointmentDTO;
+import com.example.gestioneazienda.entity.Agenda;
+import com.example.gestioneazienda.repository.AgendaRepository;
 import com.example.gestioneazienda.service.AppointmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import java.util.List;
 @RequestMapping("/api/v1/appointment")
 public class AppointmentController {
     private AppointmentService appointmentService;
+    private AgendaRepository agendaRepository;
 
     @GetMapping("/")
     public ResponseEntity<List<AppointmentDTO>> getAll() {
@@ -27,7 +30,9 @@ public class AppointmentController {
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody AppointmentDTO appointmentDTO) {
-        appointmentService.create(appointmentDTO);
+        Agenda agenda = agendaRepository.findById((long)3)
+                .get();
+        //appointmentService.create(appointmentDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
