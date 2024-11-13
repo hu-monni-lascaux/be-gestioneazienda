@@ -27,8 +27,7 @@ public class AppointmentController {
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody AppointmentDTO appointmentDTO) {
-        appointmentService.create(appointmentDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(appointmentService.create(appointmentDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/")

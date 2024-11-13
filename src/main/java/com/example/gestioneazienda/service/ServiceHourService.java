@@ -1,6 +1,7 @@
 package com.example.gestioneazienda.service;
 
 import com.example.gestioneazienda.dto.ServiceHourDTO;
+import com.example.gestioneazienda.entity.ServiceHour;
 import com.example.gestioneazienda.exception.RecordNotFoundException;
 import com.example.gestioneazienda.mapper.ServiceHourMapper;
 import com.example.gestioneazienda.repository.ServiceHourRepository;
@@ -34,8 +35,9 @@ public class ServiceHourService {
                 .collect(Collectors.toList());
     }
 
-    public void create(ServiceHourDTO serviceHourDTO) {
-        serviceHourRepository.save(serviceHourMapper.toServiceHour(serviceHourDTO));
+    public ServiceHourDTO create(ServiceHourDTO serviceHourDTO) {
+        ServiceHour serviceHour = serviceHourRepository.save(serviceHourMapper.toServiceHour(serviceHourDTO));
+        return serviceHourMapper.toServiceHourDTO(serviceHour);
     }
 
     public void deleteById(long id) {
@@ -43,6 +45,7 @@ public class ServiceHourService {
     }
 
     public void update(ServiceHourDTO serviceHourDTO) {
-        serviceHourRepository.save(serviceHourMapper.toServiceHour(serviceHourDTO));
+        ServiceHour serviceHour = serviceHourRepository.save(serviceHourMapper.toServiceHour(serviceHourDTO));
+        return serviceHourMapper.toServiceHourDTO(serviceHour);
     }
 }

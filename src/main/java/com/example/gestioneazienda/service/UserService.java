@@ -51,12 +51,15 @@ public class UserService implements UserDetailsService {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    public void update(UserDTO userDTO) {
+    public UserDTO update(UserDTO userDTO) {
         User userOLD = userRepository.findByUsername(userDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(userDTO.getUsername() + " username non trovato"));
         User userNEW = userMapper.toUser(userDTO);
         userNEW.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.update(userOLD.getId(), userNEW.getUsername(), userNEW.getEmail(), userNEW.getPassword(), userNEW.getRole());
+        return userRepository.findById(userOLD.getId())
+                .map(userMapper::toUserDTO)
+                .orElseThrow(() -> new RecordNotFoundException("User not found. Id = " + userOLD.getId()));
     }
 
 

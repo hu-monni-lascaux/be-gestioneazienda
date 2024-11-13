@@ -37,14 +37,14 @@ public class AppointmentService {
                 .orElseThrow(() -> new RecordNotFoundException("Appointment not found. Id " + id));
     }
 
-    public void create(AppointmentDTO appointmentDTO) {
+    public AppointmentDTO create(AppointmentDTO appointmentDTO) {
         validateAppointment(appointmentDTO);
-        appointmentRepository.save(appointmentMapper.toAppointment(appointmentDTO));
+        return appointmentMapper.toAppointmentDTO(appointmentRepository.save(appointmentMapper.toAppointment(appointmentDTO)));
     }
 
-    public void update(AppointmentDTO appointmentDTO) {
+    public AppointmentDTO update(AppointmentDTO appointmentDTO) {
         validateAppointment(appointmentDTO);
-        appointmentRepository.save(appointmentMapper.toAppointment(appointmentDTO));
+        return appointmentMapper.toAppointmentDTO(appointmentRepository.save(appointmentMapper.toAppointment(appointmentDTO)));
     }
 
     @Transactional(readOnly = true)

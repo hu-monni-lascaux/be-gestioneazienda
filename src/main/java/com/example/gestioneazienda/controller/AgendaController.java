@@ -27,14 +27,12 @@ public class AgendaController {
 
     @PostMapping("/")
     public ResponseEntity<?> create(@RequestBody AgendaDTO agendaDto) {
-        agendaService.create(agendaDto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(agendaService.create(agendaDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/")
     public ResponseEntity<?> update(@RequestBody AgendaDTO agendaDTO) {
-        agendaService.update(agendaDTO);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(agendaService.update(agendaDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

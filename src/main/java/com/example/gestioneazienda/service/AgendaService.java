@@ -20,12 +20,13 @@ public class AgendaService {
     private UserRepository userRepository;
     private AgendaMapper agendaMapper;
 
-    public void create(AgendaDTO agendaDTO) {
+    public AgendaDTO create(AgendaDTO agendaDTO) {
         User user = userRepository.findByUsername(agendaDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found for username: " + agendaDTO.getUsername()));
         Agenda agendaOLD = agendaMapper.toAgenda(agendaDTO);
         Agenda agenda = agendaRepository.save(agendaOLD);
         user.getAgendas().add(agenda);
+        return agendaMapper.toAgendaDTO(agenda);
     }
 
     public List<AgendaDTO> getAll() {
@@ -40,9 +41,9 @@ public class AgendaService {
                 .collect(Collectors.toList());
     }
 
-    public void update(AgendaDTO agendaDTO) {
+    public AgendaDTO update(AgendaDTO agendaDTO) {
         Agenda agenda = agendaMapper.toAgenda(agendaDTO);
-        agendaRepository.save(agenda);
+        return agendaMapper.toAgendaDTO(agendaRepository.save(agenda));
     }
 
     public void delete(long id) {

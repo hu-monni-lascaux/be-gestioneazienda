@@ -32,8 +32,7 @@ public class ServiceHourController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody ServiceHourDTO serviceHourDTO) {
-        serviceHourService.create(serviceHourDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(serviceHourService.create(serviceHourDTO), HttpStatus.CREATED);
     }
 
     @PutMapping
