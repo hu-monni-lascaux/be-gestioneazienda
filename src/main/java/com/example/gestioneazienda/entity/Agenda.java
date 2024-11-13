@@ -26,9 +26,11 @@ public class Agenda {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "agenda")
+    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
-    @OneToMany(mappedBy = "agenda")
+    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
     private List<ServiceHour> serviceHours;
+
+
 }

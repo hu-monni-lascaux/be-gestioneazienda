@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @NoArgsConstructor
@@ -22,8 +22,8 @@ public class Appointment {
     @Column(nullable = false)
     private String title;
     private String text;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalTime start;
+    private LocalTime end;
 
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)

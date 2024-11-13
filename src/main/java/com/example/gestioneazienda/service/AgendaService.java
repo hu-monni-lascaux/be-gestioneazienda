@@ -23,7 +23,8 @@ public class AgendaService {
     public void create(AgendaDTO agendaDTO) {
         User user = userRepository.findByUsername(agendaDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found for username: " + agendaDTO.getUsername()));
-        Agenda agenda = agendaRepository.save(agendaMapper.toAgenda(agendaDTO));
+        Agenda agendaOLD = agendaMapper.toAgenda(agendaDTO);
+        Agenda agenda = agendaRepository.save(agendaOLD);
         user.getAgendas().add(agenda);
     }
 

@@ -6,16 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class AgendaDTO {
+    private long id;
     private String name;
     private String username;
     private Duration maxAppointmentTime;
-    private List<AppointmentDTO> appointmentsDTO;
-    private List<ServiceHourDTO> serviceHoursDTO;
 }

@@ -1,6 +1,7 @@
 package com.example.gestioneazienda.mapper;
 
 import com.example.gestioneazienda.dto.ServiceHourDTO;
+import com.example.gestioneazienda.entity.Agenda;
 import com.example.gestioneazienda.entity.ServiceHour;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-12T11:21:17+0100",
+    date = "2024-11-13T14:06:21+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.5 (Amazon.com Inc.)"
 )
 @Component
-public class ServiceHourMapperImpl implements ServiceHourMapper {
+public class ServiceHourMapperImpl extends ServiceHourMapper {
 
     @Override
     public ServiceHourDTO toServiceHourDTO(ServiceHour serviceHour) {
@@ -23,6 +24,7 @@ public class ServiceHourMapperImpl implements ServiceHourMapper {
 
         ServiceHourDTO.ServiceHourDTOBuilder serviceHourDTO = ServiceHourDTO.builder();
 
+        serviceHourDTO.agendaID( serviceHourAgendaId( serviceHour ) );
         serviceHourDTO.day( serviceHour.getDay() );
         serviceHourDTO.start( serviceHour.getStart() );
         serviceHourDTO.end( serviceHour.getEnd() );
@@ -38,6 +40,7 @@ public class ServiceHourMapperImpl implements ServiceHourMapper {
 
         ServiceHour.ServiceHourBuilder serviceHour = ServiceHour.builder();
 
+        serviceHour.agenda( idToAgenda( serviceHourDTO.getAgendaID() ) );
         serviceHour.day( serviceHourDTO.getDay() );
         serviceHour.start( serviceHourDTO.getStart() );
         serviceHour.end( serviceHourDTO.getEnd() );
@@ -71,5 +74,13 @@ public class ServiceHourMapperImpl implements ServiceHourMapper {
         }
 
         return list;
+    }
+
+    private long serviceHourAgendaId(ServiceHour serviceHour) {
+        Agenda agenda = serviceHour.getAgenda();
+        if ( agenda == null ) {
+            return 0L;
+        }
+        return agenda.getId();
     }
 }

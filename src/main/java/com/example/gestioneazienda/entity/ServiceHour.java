@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -21,8 +21,8 @@ public class ServiceHour {
 
     @Enumerated(EnumType.STRING)
     private Day day;
-    private LocalDateTime start;
-    private LocalDateTime end;
+    private LocalTime start;
+    private LocalTime end;
 
     @ManyToOne
     @JoinColumn(name = "agenda_id", nullable = false)

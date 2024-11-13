@@ -48,8 +48,22 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/user/**").hasAnyAuthority("ADMIN", "BASE")
                         .requestMatchers(HttpMethod.PUT, "/api/v1/user/*").hasAuthority("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/agenda/*").hasAnyAuthority("ADMIN", "BASE")
+
                         .requestMatchers(HttpMethod.GET, "/api/v1/agenda/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/agenda/*").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/agenda/*").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/agenda/*").hasAnyAuthority("ADMIN", "BASE")
+
+                        .requestMatchers(HttpMethod.GET, "/api/v1/appointment/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/appointment/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/appointment/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/appointment/**").hasAnyAuthority("ADMIN", "BASE")
+
+                        .requestMatchers(HttpMethod.GET, "/api/v1/service-hour/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.POST, "/api/v1/service-hour/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.PUT, "/api/v1/service-hour/**").hasAnyAuthority("ADMIN", "BASE")
+                        .requestMatchers(HttpMethod.DELETE, "/api/v1/service-hour/**").hasAnyAuthority("ADMIN", "BASE")
+
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(httpSecurityExceptionHandlingConfigurer ->
