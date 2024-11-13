@@ -24,19 +24,18 @@ public class UserController {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<UserDTO> getByUsername(@PathVariable String username) {
-        return new ResponseEntity<>((UserDTO)userService.loadUserByUsername(username), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getByUsername(username), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<UserDTO> getById(@PathVariable long id) {
         return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping("/")
     public ResponseEntity<UserDTO> update(@RequestHeader("Authorization") String jwtToken, @RequestBody UserDTO userDTO) {
-        authService.verifyToken(jwtToken);
         userService.update(userDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }

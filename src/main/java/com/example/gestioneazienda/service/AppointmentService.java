@@ -56,12 +56,10 @@ public class AppointmentService {
                 valid = true;
             }
         }
-        // TODO da finire validare gli appuntamenti
         if(!valid) {
-            throw new InvalidAppointmentTimeException("Appointment time is outside of available service hours. ")
+            throw new InvalidAppointmentTimeException("Appointment time is outside of available service hours.");
         }
         for (Appointment existingAppointment : agenda.getAppointments()) {
-            // Check if the new appointment's time range overlaps with any existing appointment
             if ((appointmentDTO.getStart().isBefore(existingAppointment.getEnd()) && appointmentDTO.getEnd().isAfter(existingAppointment.getStart()))) {
                 throw new AppointmentConflictException("Appointment time conflicts with an existing appointment.");
             }

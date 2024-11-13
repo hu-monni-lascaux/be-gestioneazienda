@@ -1,4 +1,4 @@
-package com.example.gestioneazienda.config;
+package com.example.gestioneazienda.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

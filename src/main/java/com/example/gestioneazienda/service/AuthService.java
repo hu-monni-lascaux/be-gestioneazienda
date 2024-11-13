@@ -1,6 +1,5 @@
 package com.example.gestioneazienda.service;
 
-import com.example.gestioneazienda.config.JwtService;
 import com.example.gestioneazienda.dto.AuthenticationRequest;
 import com.example.gestioneazienda.dto.AuthenticationResponse;
 import com.example.gestioneazienda.dto.RegisterRequest;
@@ -19,15 +18,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.Collection;
 
 @AllArgsConstructor
 @Service
@@ -123,16 +117,5 @@ public class AuthService {
         return AuthenticationResponse.builder()
                 .jwtToken(jwtToken)
                 .build();
-    }
-
-    public void verifyToken(String jwtToken) {
-        String username = jwtService.extractUsername(jwtToken.substring("Bearer ".length()));
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException(username + " username not found"));
-        UserDTO userDTO = userMapper.toUserDTO(user);
-        Collection<? extends GrantedAuthority> authorities = userDTO.getAuthorities();
-
-        Authentication authToken = new UsernamePasswordAuthenticationToken(username, null, authorities);
-        SecurityContextHolder.getContext().setAuthentication(authToken);
     }
 }

@@ -2,6 +2,7 @@ package com.example.gestioneazienda.service;
 
 import com.example.gestioneazienda.dto.UserDTO;
 import com.example.gestioneazienda.entity.User;
+import com.example.gestioneazienda.exception.RecordNotFoundException;
 import com.example.gestioneazienda.mapper.UserMapper;
 import com.example.gestioneazienda.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -40,7 +41,13 @@ public class UserService implements UserDetailsService {
     public UserDTO getById(long id) {
         return this.userRepository.findById(id)
                 .map(userMapper::toUserDTO)
-                .orElseThrow(() -> new UsernameNotFoundException("Utente con id " + id + " non trovato"));
+                .orElseThrow(() -> new RecordNotFoundException("User not found. Id = " + id));
+    }
+
+    public UserDTO getByUsername(String username) {
+        return this.userRepository.findByUsername(username)
+                .map(userMapper::toUserDTO)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found. Username = " + username));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -51,4 +58,6 @@ public class UserService implements UserDetailsService {
         userNEW.setPassword(passwordEncoder.encode(userDTO.getPassword()));
         userRepository.update(userOLD.getId(), userNEW.getUsername(), userNEW.getEmail(), userNEW.getPassword(), userNEW.getRole());
     }
+
+
 }

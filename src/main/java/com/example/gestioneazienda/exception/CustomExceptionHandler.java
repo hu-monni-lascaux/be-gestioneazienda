@@ -26,6 +26,16 @@ public class CustomExceptionHandler {
         return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(InvalidAppointmentTimeException.class)
+    public ResponseEntity<?> invalidAppointmentTime(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AppointmentConflictException.class)
+    public ResponseEntity<?> appointmentConflict(Exception exception, WebRequest request) {
+        return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(RecordNotFoundException.class)
     public ResponseEntity<?> recordNotFound(Exception exception, WebRequest request) {
         return new ResponseEntity<>(new ErrorMessage(new Date(), exception.getMessage(), request.getDescription(false)), HttpStatus.NOT_FOUND);

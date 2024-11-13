@@ -29,6 +29,6 @@ public class Agenda {
     @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointments;
 
-    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "agenda", cascade = CascadeType.ALL)
     private List<ServiceHour> serviceHours;
 }

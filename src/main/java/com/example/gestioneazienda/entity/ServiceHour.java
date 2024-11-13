@@ -25,5 +25,6 @@ public class ServiceHour {
     private LocalDateTime end;
 
     @ManyToOne
+    @JoinColumn(name = "agenda_id", nullable = false)
     private Agenda agenda;
 }
