@@ -25,6 +25,11 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/agenda/{agendaID}")
+    public ResponseEntity<List<AppointmentDTO>> getAllByAgendaID(@PathVariable long agendaID){
+        return new ResponseEntity<>(appointmentService.getAllByAgendaID(agendaID), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestBody AppointmentDTO appointmentDTO) {
         return new ResponseEntity<>(appointmentService.create(appointmentDTO), HttpStatus.CREATED);

@@ -77,4 +77,10 @@ public class AppointmentService {
     public void delete(long id) {
         appointmentRepository.deleteById(id);
     }
+
+    public List<AppointmentDTO> getAllByAgendaID(long agendaID) {
+        return appointmentRepository.findAllByAgendaID(agendaID).stream()
+                .map(appointmentMapper::toAppointmentDTO)
+                .collect(Collectors.toList());
+    }
 }
