@@ -15,7 +15,7 @@ import java.util.List;
 public class AppointmentController {
     private AppointmentService appointmentService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<AppointmentDTO>> getAll() {
         return new ResponseEntity<>(appointmentService.getAll(), HttpStatus.OK);
     }
@@ -25,12 +25,12 @@ public class AppointmentController {
         return new ResponseEntity<>(appointmentService.getById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody AppointmentDTO appointmentDTO) {
         return new ResponseEntity<>(appointmentService.create(appointmentDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody AppointmentDTO appointmentDTO) {
         appointmentService.update(appointmentDTO);
         return new ResponseEntity<>(HttpStatus.OK);

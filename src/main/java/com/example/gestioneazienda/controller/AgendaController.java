@@ -15,7 +15,7 @@ import java.util.List;
 public class AgendaController {
     private final AgendaService agendaService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<AgendaDTO>> getAll() {
         return new ResponseEntity<>(agendaService.getAll(), HttpStatus.OK);
     }
@@ -25,12 +25,12 @@ public class AgendaController {
         return new ResponseEntity<>(agendaService.getAllByUsername(username), HttpStatus.OK);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody AgendaDTO agendaDto) {
         return new ResponseEntity<>(agendaService.create(agendaDto), HttpStatus.CREATED);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ResponseEntity<?> update(@RequestBody AgendaDTO agendaDTO) {
         return new ResponseEntity<>(agendaService.update(agendaDTO), HttpStatus.OK);
     }

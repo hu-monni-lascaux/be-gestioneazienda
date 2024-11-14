@@ -18,7 +18,7 @@ public class UserController {
     private UserService userService;
     private AuthService authService;
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<UserDTO>> getAll() {
         System.out.println(SecurityContextHolder.getContext().getAuthentication());
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
@@ -34,7 +34,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ResponseEntity<UserDTO> update(@RequestHeader("Authorization") String jwtToken, @RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userService.update(userDTO), HttpStatus.OK);
     }
