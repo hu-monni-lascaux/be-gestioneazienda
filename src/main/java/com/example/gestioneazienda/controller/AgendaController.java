@@ -20,12 +20,12 @@ public class AgendaController {
         return new ResponseEntity<>(agendaService.getAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/{username}")
+    @GetMapping("/username/{username}")
     public ResponseEntity<List<AgendaDTO>> getAllByUsername(@PathVariable String username) {
         return new ResponseEntity<>(agendaService.getAllByUsername(username), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public ResponseEntity<AgendaDTO> byId(@PathVariable long id) {
         return new ResponseEntity<>(agendaService.getById(id), HttpStatus.OK);
     }
