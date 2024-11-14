@@ -3,6 +3,7 @@ package com.example.gestioneazienda.service;
 import com.example.gestioneazienda.dto.AgendaDTO;
 import com.example.gestioneazienda.entity.Agenda;
 import com.example.gestioneazienda.entity.User;
+import com.example.gestioneazienda.exception.RecordNotFoundException;
 import com.example.gestioneazienda.mapper.AgendaMapper;
 import com.example.gestioneazienda.repository.AgendaRepository;
 import com.example.gestioneazienda.repository.UserRepository;
@@ -48,5 +49,11 @@ public class AgendaService {
 
     public void delete(long id) {
         agendaRepository.deleteById(id);
+    }
+
+    public AgendaDTO getById(long id) {
+        return agendaRepository.findById(id)
+                .map(agendaMapper::toAgendaDTO)
+                .orElseThrow(() -> new RecordNotFoundException("Agenda not found. Id = " + id));
     }
 }
