@@ -24,10 +24,10 @@ public abstract class UserMapper {
     }
 
     protected Role toRole(Collection<? extends GrantedAuthority> authorities) {
-        if(authorities.isEmpty()) {
-           return Role.BASE;
+        if (authorities.isEmpty()) {
+            return Role.BASE;
         }
-        if("ADMIN".equalsIgnoreCase(authorities.stream().findAny().get().getAuthority())){
+        if ("ADMIN".equalsIgnoreCase(authorities.stream().findAny().get().getAuthority())) {
             return Role.ADMIN;
         }
         return Role.BASE;

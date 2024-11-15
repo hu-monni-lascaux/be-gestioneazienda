@@ -1,7 +1,6 @@
 package com.example.gestioneazienda.controller;
 
 import com.example.gestioneazienda.dto.UserDTO;
-import com.example.gestioneazienda.service.AuthService;
 import com.example.gestioneazienda.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,7 +15,6 @@ import java.util.List;
 @RequestMapping("/api/v1/user")
 public class UserController {
     private UserService userService;
-    private AuthService authService;
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAll() {

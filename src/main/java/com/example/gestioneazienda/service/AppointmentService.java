@@ -53,7 +53,7 @@ public class AppointmentService {
                 .orElseThrow(() -> new RecordNotFoundException("Agenda not found. Id " + appointmentDTO.getAgendaID()));
 
         Duration timeDifference = Duration.between(appointmentDTO.getStart(), appointmentDTO.getEnd());
-        if(timeDifference.toMillis() < 0) {
+        if (timeDifference.toMillis() < 0) {
             throw new InvalidAppointmentTimeException("The time difference (start-end) exceeds the allowed duration.");
         }
 
@@ -64,7 +64,7 @@ public class AppointmentService {
                 valid = true;
             }
         }
-        if(!valid) {
+        if (!valid) {
             throw new InvalidAppointmentTimeException("Appointment time is outside of available service hours.");
         }
         for (Appointment existingAppointment : agenda.getAppointments()) {
