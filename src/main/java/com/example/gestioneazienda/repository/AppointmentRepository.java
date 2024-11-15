@@ -11,7 +11,7 @@ import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     @Query("""
-            select a from Appointment
+            select a from Appointment a
             where a.agenda.id = :agendaID
             """)
     List<Appointment> findAllByAgendaID(long agendaID);
