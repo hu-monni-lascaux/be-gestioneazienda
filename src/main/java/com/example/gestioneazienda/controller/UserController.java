@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserDTO> update(@RequestHeader("Authorization") String jwtToken, @RequestBody UserDTO userDTO) {
+    public ResponseEntity<UserDTO> update(@RequestBody UserDTO userDTO) {
         return new ResponseEntity<>(userService.update(userDTO), HttpStatus.OK);
     }
 
